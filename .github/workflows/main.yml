@@ -29,11 +29,9 @@ jobs:
         run: |
           git config --local user.email "litmuschaosbot@github.com"
           git config --local user.name "LitmusChaos"
-          git add .
-          git commit --amend --no-edit
+          git commit -s -m "Add embedmd changes" -a
 
       - name: Push changes
         uses: ad-m/github-push-action@master
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          force: true
