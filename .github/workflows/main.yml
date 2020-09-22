@@ -1,0 +1,63 @@
+ 
+name: LitmusGo-CI
+on:
+  issue_comment:
+    types: [created]
+
+jobs:
+  tests:
+    if: contains(github.event.comment.html_url, '/pull/') && startsWith(github.event.comment.body, '/run-e2e')
+    runs-on: ubuntu-latest
+    steps:
+      #Using the last commit id of pull request
+      - uses: octokit/request-action@v2.x
+        id: get_PR_commits
+        with:
+          route: GET /repos/:repo/pulls/:pull_number/commits
+          repo: ${{ github.repository }}
+          pull_number: ${{ github.event.issue.number }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: set commit to output
+        id: getcommit
+        run: | 
+           prsha=$(echo $response | jq '.[-1].sha'  | tr -d '"')
+           echo "::set-output name=sha::$prsha" 
+        env: 
+          response:  ${{ steps.get_PR_commits.outputs.data }}
+          
+      - uses: actions/checkout@v2
+        with:
+          ref: ${{steps.getcommit.outputs.sha}}
+
+      - uses: actions/setup-go@v2
+        with:
+          stable: 'false'
+          go-version: '1.14.0'
+
+      - name: Installing and Running embedmed
+        run: |
+          go get github.com/campoy/embedmd
+<<<<<<< HEAD
+=======
+          cd docs
+          embedmd -w $(find *.md)
+>>>>>>> ba22d81926344c3fe53d2252660a559c9e43c409
+
+      - name: Commit files
+        run: |
+          git config --local user.email "litmuschaos@github.com"
+          git config --local user.name "LitmusChaos"
+<<<<<<< HEAD
+          embedmd -w $(find *.md)
+          git commit -m "Add changes" -a
+=======
+          git add .
+          git commit --amend --no-edit
+>>>>>>> ba22d81926344c3fe53d2252660a559c9e43c409
+
+      - name: Push changes
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
