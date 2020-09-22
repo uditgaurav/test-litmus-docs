@@ -1,32 +1,15 @@
  
 name: LitmusGo-CI
 on:
-  issue_comment:
-    types: [created]
+  push:
+    branches:
+      - master
 
 jobs:
-  tests:
-    if: contains(github.event.comment.html_url, '/pull/') && startsWith(github.event.comment.body, '/run-e2e')
+  embedmd:
     runs-on: ubuntu-latest
     steps:
-      #Using the last commit id of pull request
-      - uses: octokit/request-action@v2.x
-        id: get_PR_commits
-        with:
-          route: GET /repos/:repo/pulls/:pull_number/commits
-          repo: ${{ github.repository }}
-          pull_number: ${{ github.event.issue.number }}
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: set commit to output
-        id: getcommit
-        run: | 
-           prsha=$(echo $response | jq '.[-1].sha'  | tr -d '"')
-           echo "::set-output name=sha::$prsha" 
-        env: 
-          response:  ${{ steps.get_PR_commits.outputs.data }}
-          
       - uses: actions/checkout@v2
         with:
           ref: ${{steps.getcommit.outputs.sha}}
@@ -44,12 +27,13 @@ jobs:
 
       - name: Commit files
         run: |
-          git config --local user.email "litmuschaos@github.com"
+          git config --local user.email "litmuschaosbot@github.com"
           git config --local user.name "LitmusChaos"
           git add .
-          git commit -s -m "Run embedmed" -a
+          git commit --amend --no-edit
 
       - name: Push changes
         uses: ad-m/github-push-action@master
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
+          force: true
