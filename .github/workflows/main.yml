@@ -24,12 +24,15 @@ jobs:
           go get github.com/campoy/embedmd
           cd docs
           embedmd -w $(find *.md)
+        continue-on-error: true  
 
       - name: Commit files
         run: |
           git config --local user.email "litmuschaosbot@github.com"
           git config --local user.name "LitmusChaos"
           git commit -s -m "Add embedmd changes" -a
+        continue-on-error: true
+        
 
       - name: Push changes
         uses: ad-m/github-push-action@master
