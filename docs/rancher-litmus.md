@@ -145,7 +145,7 @@ The generic chaos experiments such as `pod-delete`,  `container-kill`,` pod-netw
 This is the first chart you are recommended to install. 
 
 ```
-$ kubectl apply -f https://hub.litmuschaos.io/api/chaos/1.8.1?file=charts/generic/experiments.yaml -n nginx
+$ kubectl apply -f https://hub.litmuschaos.io/api/chaos/1.9.0?file=charts/generic/experiments.yaml -n nginx
 ```
 
 Expected output: 
@@ -402,7 +402,7 @@ You can uninstall Litmus by deleting the namespace.
 ```console
 kubectl delete -f chaosengine.yaml -n nginx
 kubectl delete -f rbac.yaml -n nginx
-kubectl delete -f https://hub.litmuschaos.io/api/chaos/1.8.1?file=charts/generic/experiments.yaml -n nginx
+kubectl delete -f https://hub.litmuschaos.io/api/chaos/1.9.0?file=charts/generic/experiments.yaml -n nginx
 kubectl delete -f litmus-operator.yaml -n nginx
 
 ```
