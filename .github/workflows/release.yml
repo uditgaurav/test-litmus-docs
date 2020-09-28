@@ -10,13 +10,14 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-    - name: Use Node.js 12.x
-      uses: actions/setup-node@v1
+
+    - uses: actions/setup-node@v2-beta
       with:
-        node-version: 12.x
-    - run: cd website && npm install
-      env:
-        CI: true 
+        node-version: '12'
+            
+    - uses: borales/actions-yarn@v2.0.0
+      with:
+        cmd: install
 
     - name: Checkout to new branch
       run: |
@@ -24,7 +25,11 @@ jobs:
         git config --local user.name "LitmusChaos"
         git checkout -b ${{ secrets.RELEASE_VERSION }}
 
-    
+    - name: Create new version
+      run: |
+        cd website
+        yarn run docusaurus docs:version 1.9.0
+        git status
 
     - name: Update the docs version in master
       run: |
@@ -32,10 +37,6 @@ jobs:
         find ./ -type f -exec sed -i -e 's/api\/chaos\/${{ secrets.CURRENT_VERSION }}?file=charts/api\/chaos\/${{ secrets.RELEASE_VERSION }}?file=charts/g' {} \;
         sed -i 's/litmus-operator-v1.8.1.yaml	/litmus-operator-v1.9.0.yaml	/g' $(find *.md)
 
-    - name: Do new release
-      run: |
-        cd website
-        npm run version 1.9.0    
 
     # - name: Prepare versioned docs
     #   run: |
