@@ -11,14 +11,6 @@ jobs:
     steps:
     - uses: actions/checkout@v2
 
-    - uses: actions/setup-node@v2-beta
-      with:
-        node-version: '12'
-            
-    - uses: borales/actions-yarn@v2.0.0
-      with:
-        cmd: install
-
     - name: Checkout to new branch
       run: |
         git config --local user.email "litmuschaosbot@github.com"
@@ -36,13 +28,9 @@ jobs:
 
     - name: Create new version
       run: |
-        node -v
         cd website
-        yarn install
-        yarn upgrade @docusaurus/core@2.0.0-alpha.49 @docusaurus/preset-classic@2.0.0-alpha.49
-        yarn run version 1.9.0
-        git status
-
+        npm i npm@3.5.2
+        npm run version 1.9.0
 
 
     # - name: Prepare versioned docs
