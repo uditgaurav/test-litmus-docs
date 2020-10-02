@@ -5,12 +5,6 @@ sidebar_label: Administrator Mode
 ---
 ------
 
-###  What is Adminstator Mode?
-
-Admin mode is one of the ways the chaos orchestration is set up in Litmus, wherein all chaos resources (i.e., install time resources like the operator, chaosexperiment CRs, chaosServiceAccount/rbac and runtime resources like chaosengine, chaos-runner, experiment jobs & chaosresults) are setup in a single admin namespace (typically, litmus). In other words, centralized administration of chaos.
-This feature is aimed at making the SRE/Cluster Admins life easier by doing away with setting up chaos pre-requisites on a per namespace basis (which may be more relevant in an autonomous/self-service cluster sharing model in dev environments).
-This mode typically needs a "wider" & "stronger" ClusterRole, albeit one that is still just a superset of the individual experiment permissions. In this mode, the applications in their respective namespaces are subjected to chaos while the chaos job runs elsewhere, i.e., admin namespace.
-
 ### How to use Adminstator Mode?
 
 In order to use Admin Mode, you just have to create a ServiceAccount in the *admin* or so called *chaos* namespace (`litmus` itself can be used), which is tied to a ClusterRole that has the permissions to perform operations on Kubernetes resources involved in the selected experiments across namespaces.
