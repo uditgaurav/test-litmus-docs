@@ -1,9 +1,8 @@
  
-name: LitmusGo-CI
+name: LitmusDocs-CI
 on:
-  push:
-    branches:
-      - master
+  pull_request:
+    types: [ opened, synchronize, reopened ]
 
 jobs:
   embedmd:
@@ -12,7 +11,7 @@ jobs:
 
       - uses: actions/checkout@v2
         with:
-          ref: ${{steps.getcommit.outputs.sha}}
+          ref: ${{steps.getcommit.outputs.sha}} 
 
       - uses: actions/setup-go@v2
         with:
@@ -25,15 +24,19 @@ jobs:
           cd docs
           embedmd -w $(find *.md)
         continue-on-error: true  
-
-      - name: Commit files
+        
+      - name: embedmd check
         run: |
-          git config --local user.email "litmuschaosbot@github.com"
-          git config --local user.name "LitmusChaos"
-          git commit -s -m "Add embedmd changes" -a
-        continue-on-error: true
-
-      - name: Push changes
-        uses: ad-m/github-push-action@master
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+          count=$(git diff | wc -l)
+          if [ "$count" -ne "0" ]
+          then
+            echo "embedmd check failed\nThese files need to run embedmd once:"
+            git diff
+            echo "Please follow the instructions to run embedmd:"
+            echo "cd docs\nembedmd -w $(find *.md)"
+            echo "For more info visit https://github.com/litmuschaos/litmus-docs/blob/master/CONTRIBUTING.md"
+            exit 1
+          else
+            echo "Nothing to embed"
+          fi
+        shell: sh

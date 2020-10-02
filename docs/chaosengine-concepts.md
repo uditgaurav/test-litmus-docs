@@ -34,6 +34,7 @@ This section describes the fields in the ChaosEngine spec and the possible value
 </tr>
 <tr>
   <th>Default</th>
+  
   <td><code>active</code></td>
 </tr>
 <tr>

@@ -1,0 +1,8 @@
+#!/bin/bash
+count=$(git diff | wc -l)
+if [ "$count" -eq "0" ]
+then
+  echo "It is zero"
+else
+  echo "It is non\n zero"
+fi
