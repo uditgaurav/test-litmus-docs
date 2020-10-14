@@ -1,68 +1,64 @@
-name: LitmusDocs-Release
-on:
-  push:
-    branches:
-      - master
+# name: LitmusDocs-Release
+# on:
+#   push:
+#     branches:
+#       - master
 
-jobs:
-  release:
-    runs-on: ubuntu-latest
+# jobs:
+#   release:
+#     runs-on: ubuntu-latest
 
-    steps:
-    - uses: actions/checkout@v2
-    - name: Use Node.js 12.x
-      uses: actions/setup-node@v1
-      with:
-        node-version: 12.x
-    - run: cd website && npm install
-      env:
-        CI: true 
+#     steps:
+#     - uses: actions/checkout@v2
 
-    - name: Checkout to new branch
-      run: |
-        git config --local user.email "litmuschaosbot@github.com"
-        git config --local user.name "LitmusChaos"
-        git checkout -b ${{ secrets.RELEASE_VERSION }}
+#     - name: Checkout to new branch
+#       run: |
+#         git config --local user.email "litmuschaosbot@github.com"
+#         git config --local user.name "LitmusChaos"
+#         git checkout -b ${{ secrets.RELEASE_VERSION }}
 
-    
 
-    - name: Update the docs version in master
-      run: |
-        cd docs
-        find ./ -type f -exec sed -i -e 's/api\/chaos\/${{ secrets.CURRENT_VERSION }}?file=charts/api\/chaos\/${{ secrets.RELEASE_VERSION }}?file=charts/g' {} \;
-        sed -i 's/litmus-operator-v1.8.1.yaml	/litmus-operator-v1.9.0.yaml	/g' $(find *.md)
 
-    - name: Do new release
-      run: |
-        cd website
-        npm run version 1.9.0    
+#     - name: Update the docs version in master
+#       run: |
+#         cd docs
+#         find ./ -type f -exec sed -i -e 's/api\/chaos\/${{ secrets.CURRENT_VERSION }}?file=charts/api\/chaos\/${{ secrets.RELEASE_VERSION }}?file=charts/g' {} \;
+#         sed -i 's/litmus-operator-v1.8.1.yaml	/litmus-operator-v1.9.0.yaml	/g' $(find *.md)
 
-    # - name: Prepare versioned docs
-    #   run: |
-    #     sh ./hack/prepare_version_docs.sh ${{ secrets.RELEASE_VERSION }}
 
-    - name: Check git status
-      run: |
-        git status
+#     - name: Create new version
+#       run: |
+#         cd website
+#         npm i npm@3.5.2
+#         npm run version 1.9.0
 
-    # - name: Prepare version sidebar
-    #   run: |
-    #     cp website/sidebars.json version-${{ secrets.RELEASE_VERSION }}-sidebars.json
-    #     python3 hack/version_sidebar.py ${{ secrets.RELEASE_VERSION }}
-    #     mv version-${{ secrets.RELEASE_VERSION }}-sidebars.json website/versioned_sidebars
 
-    - name: Commit files
-      run: |
-        git config --local user.email "litmuschaosbot@github.com"
-        git config --local user.name "LitmusChaos"
-        git add .          
-        git commit -s -m "New Release ${{ secrets.RELEASE_VERSION }}"
+#     # - name: Prepare versioned docs
+#     #   run: |
+#     #     sh ./hack/prepare_version_docs.sh ${{ secrets.RELEASE_VERSION }}
+
+#     - name: Check git status
+#       run: |
+#         git status
+
+#     # - name: Prepare version sidebar
+#     #   run: |
+#     #     cp website/sidebars.json version-${{ secrets.RELEASE_VERSION }}-sidebars.json
+#     #     python3 hack/version_sidebar.py ${{ secrets.RELEASE_VERSION }}
+#     #     mv version-${{ secrets.RELEASE_VERSION }}-sidebars.json website/versioned_sidebars
+
+#     - name: Commit files
+#       run: |
+#         git config --local user.email "litmuschaosbot@github.com"
+#         git config --local user.name "LitmusChaos"
+#         git add .          
+#         git commit -s -m "New Release ${{ secrets.RELEASE_VERSION }}"
   
-    - name: Push changes
-      uses: ad-m/github-push-action@master
-      with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
-        branch: ${{ secrets.RELEASE_VERSION }}
+#     - name: Push changes
+#       uses: ad-m/github-push-action@master
+#       with:
+#         github_token: ${{ secrets.GITHUB_TOKEN }}
+#         branch: ${{ secrets.RELEASE_VERSION }}
 
 
         
