@@ -65,26 +65,29 @@ metadata:
   namespace: default
   labels:
     name: pod-delete-sa
+    app.kubernetes.io/part-of: litmus
 ---
-apiVersion: rbac.authorization.k8s.io/v1beta1
+apiVersion: rbac.authorization.k8s.io/v1
 kind: Role
 metadata:
   name: pod-delete-sa
   namespace: default
   labels:
     name: pod-delete-sa
+    app.kubernetes.io/part-of: litmus
 rules:
 - apiGroups: ["","litmuschaos.io","batch","apps"]
   resources: ["pods","deployments","pods/log","events","jobs","chaosengines","chaosexperiments","chaosresults"]
   verbs: ["create","list","get","patch","update","delete","deletecollection"]
 ---
-apiVersion: rbac.authorization.k8s.io/v1beta1
+apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
 metadata:
   name: pod-delete-sa
   namespace: default
   labels:
     name: pod-delete-sa
+    app.kubernetes.io/part-of: litmus
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: Role
@@ -107,26 +110,29 @@ metadata:
   namespace: default
   labels:
     name: pod-delete-sa
+    app.kubernetes.io/part-of: litmus
 ---
-apiVersion: rbac.authorization.k8s.io/v1beta1
+apiVersion: rbac.authorization.k8s.io/v1
 kind: Role
 metadata:
   name: pod-delete-sa
   namespace: default
   labels:
     name: pod-delete-sa
+    app.kubernetes.io/part-of: litmus
 rules:
 - apiGroups: ["","litmuschaos.io","batch","apps"]
   resources: ["pods","deployments","pods/log","events","jobs","chaosengines","chaosexperiments","chaosresults"]
   verbs: ["create","list","get","patch","update","delete","deletecollection"]
 ---
-apiVersion: rbac.authorization.k8s.io/v1beta1
+apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
 metadata:
   name: pod-delete-sa
   namespace: default
   labels:
     name: pod-delete-sa
+    app.kubernetes.io/part-of: litmus
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: Role
@@ -149,26 +155,29 @@ metadata:
   namespace: default
   labels:
     name: pod-delete-sa
+    app.kubernetes.io/part-of: litmus
 ---
-apiVersion: rbac.authorization.k8s.io/v1beta1
+apiVersion: rbac.authorization.k8s.io/v1
 kind: Role
 metadata:
   name: pod-delete-sa
   namespace: default
   labels:
     name: pod-delete-sa
+    app.kubernetes.io/part-of: litmus
 rules:
 - apiGroups: ["","litmuschaos.io","batch","apps"]
   resources: ["pods","deployments","pods/log","events","jobs","chaosengines","chaosexperiments","chaosresults"]
   verbs: ["create","list","get","patch","update","delete","deletecollection"]
 ---
-apiVersion: rbac.authorization.k8s.io/v1beta1
+apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
 metadata:
   name: pod-delete-sa
   namespace: default
   labels:
     name: pod-delete-sa
+    app.kubernetes.io/part-of: litmus
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: Role
@@ -193,7 +202,7 @@ metadata:
   labels:
     name: pod-delete-sa
 ---
-apiVersion: rbac.authorization.k8s.io/v1beta1
+apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
 metadata:
   name: pod-delete-sa
@@ -207,7 +216,7 @@ rules:
   resources: ["nodes"]
   verbs: ["get","list"]
 ---
-apiVersion: rbac.authorization.k8s.io/v1beta1
+apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
 metadata:
   name: pod-delete-sa

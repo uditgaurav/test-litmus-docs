@@ -66,13 +66,15 @@ metadata:
   namespace: default
   labels:
     name: node-io-stress-sa
+    app.kubernetes.io/part-of: litmus
 ---
-apiVersion: rbac.authorization.k8s.io/v1beta1
+apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
 metadata:
   name: node-io-stress-sa
   labels:
     name: node-io-stress-sa
+    app.kubernetes.io/part-of: litmus
 rules:
 - apiGroups: ["","litmuschaos.io","batch","apps"]
   resources: ["pods","jobs","pods/log","events","chaosengines","chaosexperiments","chaosresults"]
@@ -81,12 +83,13 @@ rules:
   resources: ["nodes"]
   verbs: ["get","list"]
 ---
-apiVersion: rbac.authorization.k8s.io/v1beta1
+apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
 metadata:
   name: node-io-stress-sa
   labels:
     name: node-io-stress-sa
+    app.kubernetes.io/part-of: litmus
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: ClusterRole

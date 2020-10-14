@@ -120,7 +120,7 @@ metadata:
   labels:
     name: chaos-admin
 ---
-apiVersion: rbac.authorization.k8s.io/v1beta1
+apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
 metadata:
   name: chaos-admin
@@ -134,7 +134,7 @@ rules:
   resources: ["nodes"]
   verbs: ["get","list","patch"]
 ---
-apiVersion: rbac.authorization.k8s.io/v1beta1
+apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
 metadata:
   name: chaos-admin

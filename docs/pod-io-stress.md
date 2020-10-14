@@ -64,26 +64,29 @@ metadata:
   namespace: default
   labels:
     name: pod-io-stress-sa
+    app.kubernetes.io/part-of: litmus
 ---
-apiVersion: rbac.authorization.k8s.io/v1beta1
+apiVersion: rbac.authorization.k8s.io/v1
 kind: Role
 metadata:
   name: pod-io-stress-sa
   namespace: default
   labels:
     name: pod-io-stress-sa
+    app.kubernetes.io/part-of: litmus
 rules:
 - apiGroups: ["","litmuschaos.io","batch"]
   resources: ["pods","jobs","events","pods/log","pods/exec","chaosengines","chaosexperiments","chaosresults"]
   verbs: ["create","list","get","patch","update","delete","deletecollection"]
 ---
-apiVersion: rbac.authorization.k8s.io/v1beta1
+apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
 metadata:
   name: pod-io-stress-sa
   namespace: default
   labels:
     name: pod-io-stress-sa
+    app.kubernetes.io/part-of: litmus
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: Role

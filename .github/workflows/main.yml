@@ -27,11 +27,22 @@ jobs:
         
       - name: embedmd check
         run: |
-          count=$(git status -s |wc -l)
+          border()
+          {
+              title="| $1 |"
+              edge=$(echo "$title" | sed 's/./-/g')
+              echo "$edge"
+              echo "$title"
+              echo "$edge"
+          }
+          export TERM=xterm-256color 
+          count=$(git status -s| wc -l)
           if [ "$count" -ne "0" ]
           then
-            echo "embedmd check failed\nThese files need to run embedmd once:"
-            git diff
+            tput setaf 1; echo "embedmd check failed!!!"
+            tput setaf 4; echo "Please check these files need a run embedmd run:"
+            output=$(git status -s)
+            border "$output"
             echo "Please follow the instructions to run embedmd:"
             echo "cd docs\nembedmd -w $(find *.md)"
             echo "For more info visit https://github.com/litmuschaos/litmus-docs/blob/master/CONTRIBUTING.md"

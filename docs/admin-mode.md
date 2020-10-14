@@ -36,21 +36,24 @@ metadata:
     name: litmus-admin
 ---
 # Source: openebs/templates/clusterrole.yaml
-apiVersion: rbac.authorization.k8s.io/v1beta1
+apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
 metadata:
   name: litmus-admin
   labels:
     name: litmus-admin
 rules:
-- apiGroups: ["","apps","batch","extensions","litmuschaos.io","openebs.io","storage.k8s.io"]
-  resources: ["chaosengines","chaosexperiments","chaosresults","cstorpools","cstorvolumereplicas","configmaps","secrets","pods","pods/exec","pods/log","pods/eviction","jobs","replicasets","deployments","daemonsets","statefulsets","persistentvolumeclaims","persistentvolumes","storageclasses","services","events"]
+- apiGroups: ["","apps","batch","extensions","litmuschaos.io"]
+  resources: ["pods","pods/exec","pods/eviction","jobs","daemonsets","events","chaosresults","chaosengines"]
   verbs: ["create","delete","get","list","patch","update", "deletecollection"]
+- apiGroups: ["","apps","litmuschaos.io"]
+  resources: ["configmaps","secrets","services","chaosexperiments","pods/log","replicasets","deployments","statefulsets","services"]
+  verbs: ["get","list","patch","update"]
 - apiGroups: [""]
   resources: ["nodes"]
   verbs: ["get","list","patch","update"]
 ---
-apiVersion: rbac.authorization.k8s.io/v1beta1
+apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
 metadata:
   name: litmus-admin
@@ -64,7 +67,11 @@ subjects:
 - kind: ServiceAccount
   name: litmus-admin
   namespace: litmus
+
 ```
+[embedmd]:# (https://litmuschaos.github.io/litmus/litmus-admin-rbac.yaml)
+
+[embedmd]:# (https://litmuschaos.github.io/litmus/litmus-admin-rbac.yaml)
 
 
 #### Prepare ChaosEngine
