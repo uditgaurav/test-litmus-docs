@@ -8,10 +8,10 @@ jobs:
   embedmd:
     runs-on: ubuntu-latest
     steps:
-
+    
       - uses: actions/checkout@v2
         with:
-          ref: ${{steps.getcommit.outputs.sha}} 
+          ref: ${{steps.getcommit.outputs.sha}}      
 
       - uses: actions/setup-go@v2
         with:
@@ -27,7 +27,7 @@ jobs:
         
       - name: embedmd check
         run: |
-          count=$(git status -s| wc -l)
+          count=$(git status -s)
           if [ "$count" -ne "0" ]
           then
             echo "embedmd check failed\nThese files need to run embedmd once:"
