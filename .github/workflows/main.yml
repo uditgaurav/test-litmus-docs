@@ -31,7 +31,7 @@ jobs:
           if [ "$count" -ne "0" ]
           then
             echo "embedmd check failed\nThese files need to run embedmd once:"
-            git diff
+            git status -s
             echo "Please follow the instructions to run embedmd:"
             echo "cd docs\nembedmd -w $(find *.md)"
             echo "For more info visit https://github.com/litmuschaos/litmus-docs/blob/master/CONTRIBUTING.md"
