@@ -25,6 +25,52 @@ sidebar_label: Cluster Pod - kiam
 - Ensure that the `k8-pod-delete` experiment resource is available in the cluster by executing `kubectl get chaosexperiments` in the desired namespace. If not, install from [here](https://hub.litmuschaos.io/api/chaos/1.9.0?file=charts/generic/k8-pod-delete/experiment.yaml)
 - Ensure you have nginx default application setup on default namespace ( if you are using specific namespace please execute beloe on that namespace)
 
+[embedmd]:# (https://litmuschaos.github.io/litmus/litmus-admin-rbac.yaml)
+```yaml
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: litmus-admin
+  namespace: litmus
+  labels:
+    name: litmus-admin
+---
+# Source: openebs/templates/clusterrole.yaml
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: litmus-admin
+  labels:
+    name: litmus-admin
+rules:
+- apiGroups: ["","apps","batch","extensions","litmuschaos.io"]
+  resources: ["pods","pods/exec","pods/eviction","jobs","daemonsets","events","chaosresults","chaosengines"]
+  verbs: ["create","delete","get","list","patch","update", "deletecollection"]
+- apiGroups: ["","apps","litmuschaos.io"]
+  resources: ["configmaps","secrets","services","chaosexperiments","pods/log","replicasets","deployments","statefulsets","services"]
+  verbs: ["get","list","patch","update"]
+- apiGroups: [""]
+  resources: ["nodes"]
+  verbs: ["get","list","patch","update"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: litmus-admin
+  labels:
+    name: litmus-admin
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: litmus-admin
+subjects:
+- kind: ServiceAccount
+  name: litmus-admin
+  namespace: litmus
+
+```
+
+
 ## Entry Criteria
 
 - Application replicas are healthy before chaos injection
